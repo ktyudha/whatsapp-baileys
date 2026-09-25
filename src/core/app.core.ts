@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import env from "@/config/env.config";
 import { log } from "@core/helpers/index.helper";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
@@ -8,7 +9,7 @@ export function createRouter() {
 }
 
 export default function createApp(app: Hono) {
-  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+  const port = env.PORT;
 
   log.info(`Server: running on port ${port}!`);
 
