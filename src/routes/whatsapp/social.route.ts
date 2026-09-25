@@ -1,13 +1,16 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as socialController from "@controllers/whatsapp/social.controller";
+import { SocialRoutes } from "./social.routes";
 
-export default function socialRoutes(app: Hono) {
-  app.post("/social/react", socialController.react);
-  app.post("/social/react/remove", socialController.unreact);
-  app.post("/social/location", socialController.sendLocation);
-  app.post("/social/contact", socialController.sendContact);
-  app.post("/social/group-invite", socialController.sendGroupInvite);
-  app.post("/social/pin", socialController.pin);
-  app.post("/social/unpin", socialController.unpin);
-}
+const routes = new SocialRoutes();
+
+const router = createRouter()
+  .openapi(routes.react, socialController.react)
+  .openapi(routes.unreact, socialController.unreact)
+  .openapi(routes.sendLocation, socialController.sendLocation)
+  .openapi(routes.sendContact, socialController.sendContact)
+  .openapi(routes.sendGroupInvite, socialController.sendGroupInvite)
+  .openapi(routes.pin, socialController.pin)
+  .openapi(routes.unpin, socialController.unpin);
+
+export default router;

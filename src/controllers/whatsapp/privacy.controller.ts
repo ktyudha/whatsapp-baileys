@@ -1,4 +1,21 @@
-import { fail, ok, requireFields, withSocket } from "@core/helpers/index.helper";
+import type { RouteHandler } from "@hono/zod-openapi";
+
+import { fail, ok, withSocket } from "@core/helpers/index.helper";
+import type {
+  BlockContactRoute,
+  GetBlocklistRoute,
+  GetPrivacySettingsRoute,
+  UnblockContactRoute,
+  UpdateCallsRoute,
+  UpdateDisappearingModeRoute,
+  UpdateGroupsAddRoute,
+  UpdateLastSeenRoute,
+  UpdateMessagesRoute,
+  UpdateOnlineRoute,
+  UpdateProfilePictureRoute,
+  UpdateReadReceiptsRoute,
+  UpdateStatusRoute,
+} from "@routes/whatsapp/privacy.routes";
 import {
   blockContact,
   getBlockedContacts,
@@ -15,135 +32,102 @@ import {
   updateStatusPrivacy,
 } from "@services/whatsapp/privacy/privacy.service";
 
-export const block = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const block: RouteHandler<BlockContactRoute> = withSocket(async (c, sock) => {
+  const { jid } = c.req.valid("json");
 
-  if (error) return error;
-
-  await blockContact(sock, body.jid);
+  await blockContact(sock, jid);
 
   return ok(c, null, "Contact blocked");
 });
 
-export const unblock = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const unblock: RouteHandler<UnblockContactRoute> = withSocket(async (c, sock) => {
+  const { jid } = c.req.valid("json");
 
-  if (error) return error;
-
-  await unblockContact(sock, body.jid);
+  await unblockContact(sock, jid);
 
   return ok(c, null, "Contact unblocked");
 });
 
-export const getSettings = withSocket(async (c, sock) => {
+export const getSettings: RouteHandler<GetPrivacySettingsRoute> = withSocket(async (c, sock) => {
   const settings = await getPrivacySettings(sock, c.req.query("force") === "true");
 
   return settings ? ok(c, settings) : fail(c, "Failed to fetch privacy settings", 500);
 });
 
-export const getBlocklist = withSocket(async (c, sock) => {
+export const getBlocklist: RouteHandler<GetBlocklistRoute> = withSocket(async (c, sock) => {
   const blocklist = await getBlockedContacts(sock);
 
   return blocklist ? ok(c, blocklist) : fail(c, "Failed to fetch blocklist", 500);
 });
 
-export const updateLastSeen = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateLastSeen: RouteHandler<UpdateLastSeenRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateLastSeenPrivacy(sock, body.value);
+  await updateLastSeenPrivacy(sock, value);
 
   return ok(c, null, "Last seen privacy updated");
 });
 
-export const updateOnline = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateOnline: RouteHandler<UpdateOnlineRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateOnlinePrivacy(sock, body.value);
+  await updateOnlinePrivacy(sock, value);
 
   return ok(c, null, "Online privacy updated");
 });
 
-export const updateProfilePicture = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateProfilePicture: RouteHandler<UpdateProfilePictureRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateProfilePicturePrivacy(sock, body.value);
+  await updateProfilePicturePrivacy(sock, value);
 
   return ok(c, null, "Profile picture privacy updated");
 });
 
-export const updateStatus = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateStatus: RouteHandler<UpdateStatusRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateStatusPrivacy(sock, body.value);
+  await updateStatusPrivacy(sock, value);
 
   return ok(c, null, "Status privacy updated");
 });
 
-export const updateReadReceipts = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateReadReceipts: RouteHandler<UpdateReadReceiptsRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateReadReceiptsPrivacy(sock, body.value);
+  await updateReadReceiptsPrivacy(sock, value);
 
   return ok(c, null, "Read receipts privacy updated");
 });
 
-export const updateGroupsAdd = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateGroupsAdd: RouteHandler<UpdateGroupsAddRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateGroupsAddPrivacy(sock, body.value);
+  await updateGroupsAddPrivacy(sock, value);
 
   return ok(c, null, "Groups add privacy updated");
 });
 
-export const updateCalls = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateCalls: RouteHandler<UpdateCallsRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateCallPrivacy(sock, body.value);
+  await updateCallPrivacy(sock, value);
 
   return ok(c, null, "Call privacy updated");
 });
 
-export const updateMessages = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["value"]);
+export const updateMessages: RouteHandler<UpdateMessagesRoute> = withSocket(async (c, sock) => {
+  const { value } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateMessagesPrivacy(sock, body.value);
+  await updateMessagesPrivacy(sock, value);
 
   return ok(c, null, "Messages privacy updated");
 });
 
-export const updateDisappearingMode = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["durationSeconds"]);
+export const updateDisappearingMode: RouteHandler<UpdateDisappearingModeRoute> = withSocket(async (c, sock) => {
+  const { durationSeconds } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updateDefaultDisappearingMode(sock, body.durationSeconds);
+  await updateDefaultDisappearingMode(sock, durationSeconds);
 
   return ok(c, null, "Default disappearing mode updated");
 });

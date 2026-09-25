@@ -1,7 +1,9 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as callController from "@controllers/whatsapp/call.controller";
+import { CallRoutes } from "./call.routes";
 
-export default function callRoutes(app: Hono) {
-  app.post("/calls/reject", callController.reject);
-}
+const routes = new CallRoutes();
+
+const router = createRouter().openapi(routes.reject, callController.reject);
+
+export default router;

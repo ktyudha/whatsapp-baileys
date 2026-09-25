@@ -1,6 +1,16 @@
-import type { WAMessageKey, WAPresence } from "@whiskeysockets/baileys";
+import type { RouteHandler } from "@hono/zod-openapi";
+import type { WAMessageKey } from "@whiskeysockets/baileys";
 
-import { fail, ok, requireFields, withSocket } from "@core/helpers/index.helper";
+import { ok, withSocket } from "@core/helpers/index.helper";
+import type {
+  ArchiveChatRoute,
+  DeleteChatRoute,
+  MarkReadRoute,
+  MuteChatRoute,
+  PinChatRoute,
+  SendPresenceRoute,
+  SubscribePresenceRoute,
+} from "@routes/whatsapp/chat.routes";
 import {
   archiveChat,
   deleteChat,
@@ -10,79 +20,58 @@ import {
 } from "@services/whatsapp/chat/manage-chat.service";
 import { subscribeToPresence, updatePresence } from "@services/whatsapp/chat/presence.service";
 
-export const markRead = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["keys"]);
+export const markRead: RouteHandler<MarkReadRoute> = withSocket(async (c, sock) => {
+  const { keys } = c.req.valid("json");
 
-  if (error) return error;
-
-  await markChatRead(sock, body.keys as WAMessageKey[]);
+  await markChatRead(sock, keys as WAMessageKey[]);
 
   return ok(c, null, "Chat marked as read");
 });
 
-export const archive = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const archive: RouteHandler<ArchiveChatRoute> = withSocket(async (c, sock) => {
+  const { jid, archive: shouldArchive } = c.req.valid("json");
 
-  if (error) return error;
-
-  await archiveChat(sock, body.jid, body.archive ?? true);
+  await archiveChat(sock, jid, shouldArchive);
 
   return ok(c, null, "Chat archive updated");
 });
 
-export const mute = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const mute: RouteHandler<MuteChatRoute> = withSocket(async (c, sock) => {
+  const { jid, durationMs } = c.req.valid("json");
 
-  if (error) return error;
-
-  await muteChat(sock, body.jid, body.durationMs ?? null);
+  await muteChat(sock, jid, durationMs ?? null);
 
   return ok(c, null, "Chat mute updated");
 });
 
-export const pin = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const pin: RouteHandler<PinChatRoute> = withSocket(async (c, sock) => {
+  const { jid, pin: shouldPin } = c.req.valid("json");
 
-  if (error) return error;
-
-  await pinChat(sock, body.jid, body.pin ?? true);
+  await pinChat(sock, jid, shouldPin);
 
   return ok(c, null, "Chat pin updated");
 });
 
-export const remove = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid", "lastMessageTimestamp"]);
+export const remove: RouteHandler<DeleteChatRoute> = withSocket(async (c, sock) => {
+  const { jid, lastMessageTimestamp } = c.req.valid("json");
 
-  if (error) return error;
-
-  await deleteChat(sock, body.jid, body.lastMessageTimestamp);
+  await deleteChat(sock, jid, lastMessageTimestamp);
 
   return ok(c, null, "Chat deleted");
 });
 
-export const subscribePresence = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid"]);
+export const subscribePresence: RouteHandler<SubscribePresenceRoute> = withSocket(async (c, sock) => {
+  const { jid } = c.req.valid("json");
 
-  if (error) return error;
-
-  await subscribeToPresence(sock, body.jid);
+  await subscribeToPresence(sock, jid);
 
   return ok(c, null, "Subscribed to presence");
 });
 
-export const sendPresence = withSocket(async (c, sock) => {
-  const body = await c.req.json();
-  const error = requireFields(c, body, ["jid", "presence"]);
+export const sendPresence: RouteHandler<SendPresenceRoute> = withSocket(async (c, sock) => {
+  const { jid, presence } = c.req.valid("json");
 
-  if (error) return error;
-
-  await updatePresence(sock, body.jid, body.presence as WAPresence);
+  await updatePresence(sock, jid, presence);
 
   return ok(c, null, "Presence updated");
 });

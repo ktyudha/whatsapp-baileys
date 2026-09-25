@@ -1,5 +1,14 @@
+import type { RouteHandler } from "@hono/zod-openapi";
+
 import { fail, ok, withSocket } from "@core/helpers/index.helper";
 import { resolveMediaUpload } from "@core/helpers/media-upload.helper";
+import type {
+  SendAudioRoute,
+  SendDocumentRoute,
+  SendImageRoute,
+  SendStickerRoute,
+  SendVideoRoute,
+} from "@routes/whatsapp/media.routes";
 import {
   sendAudioMessage,
   sendDocumentMessage,
@@ -8,7 +17,7 @@ import {
   sendVideoMessage,
 } from "@services/whatsapp/message/media-message.service";
 
-export const sendImage = withSocket(async (c, sock) => {
+export const sendImage: RouteHandler<SendImageRoute> = withSocket(async (c, sock) => {
   const upload = await resolveMediaUpload(c);
 
   if (!upload?.jid) return fail(c, 'Field "jid" and "url" or "file" are required', 400, "VALIDATION_ERROR");
@@ -18,7 +27,7 @@ export const sendImage = withSocket(async (c, sock) => {
   return message ? ok(c, message, "Image sent") : fail(c, "Failed to send image", 500);
 });
 
-export const sendVideo = withSocket(async (c, sock) => {
+export const sendVideo: RouteHandler<SendVideoRoute> = withSocket(async (c, sock) => {
   const upload = await resolveMediaUpload(c);
 
   if (!upload?.jid) return fail(c, 'Field "jid" and "url" or "file" are required', 400, "VALIDATION_ERROR");
@@ -28,7 +37,7 @@ export const sendVideo = withSocket(async (c, sock) => {
   return message ? ok(c, message, "Video sent") : fail(c, "Failed to send video", 500);
 });
 
-export const sendAudio = withSocket(async (c, sock) => {
+export const sendAudio: RouteHandler<SendAudioRoute> = withSocket(async (c, sock) => {
   const upload = await resolveMediaUpload(c);
 
   if (!upload?.jid) return fail(c, 'Field "jid" and "url" or "file" are required', 400, "VALIDATION_ERROR");
@@ -38,7 +47,7 @@ export const sendAudio = withSocket(async (c, sock) => {
   return message ? ok(c, message, "Audio sent") : fail(c, "Failed to send audio", 500);
 });
 
-export const sendDocument = withSocket(async (c, sock) => {
+export const sendDocument: RouteHandler<SendDocumentRoute> = withSocket(async (c, sock) => {
   const upload = await resolveMediaUpload(c);
 
   if (!upload?.jid) return fail(c, 'Field "jid" and "url" or "file" are required', 400, "VALIDATION_ERROR");
@@ -55,7 +64,7 @@ export const sendDocument = withSocket(async (c, sock) => {
   return message ? ok(c, message, "Document sent") : fail(c, "Failed to send document", 500);
 });
 
-export const sendSticker = withSocket(async (c, sock) => {
+export const sendSticker: RouteHandler<SendStickerRoute> = withSocket(async (c, sock) => {
   const upload = await resolveMediaUpload(c);
 
   if (!upload?.jid) return fail(c, 'Field "jid" and "url" or "file" are required', 400, "VALIDATION_ERROR");

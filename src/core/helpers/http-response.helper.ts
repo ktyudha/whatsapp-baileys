@@ -3,15 +3,17 @@ import type { WASocket } from "@whiskeysockets/baileys";
 
 import { getActiveSocket } from "@core/whatsapp-socket.core";
 
-export function ok(c: Context, data: unknown = null, message = "OK") {
+export function ok<C extends Context, T = null>(c: C, data: T = null as T, message = "OK") {
   return c.json({ success: true, message, data, error: null }, 200);
 }
 
-export function fail(c: Context, message: string, status = 400, code = "BAD_REQUEST") {
-  return c.json(
-    { success: false, message, data: null, error: { code, message } },
-    status as 400 | 404 | 409 | 500 | 503,
-  );
+export function fail<C extends Context, S extends 400 | 404 | 409 | 422 | 500 | 503 = 400>(
+  c: C,
+  message: string,
+  status: S = 400 as S,
+  code = "BAD_REQUEST",
+) {
+  return c.json({ success: false, message, data: null, error: { code, message } }, status);
 }
 
 export function requireFields(
@@ -28,10 +30,8 @@ export function requireFields(
   return undefined;
 }
 
-type SocketHandler = (c: Context, sock: WASocket) => Promise<Response>;
-
-export function withSocket(handler: SocketHandler) {
-  return async (c: Context) => {
+export function withSocket<C extends Context, R>(handler: (c: C, sock: WASocket) => Promise<R>) {
+  return async (c: C) => {
     try {
       const sock = getActiveSocket();
 

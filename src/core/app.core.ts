@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import type { Hono } from "hono";
 import env from "@/config/env.config";
 import { log } from "@core/helpers/index.helper";
 
@@ -8,7 +8,7 @@ export function createRouter() {
   return new OpenAPIHono();
 }
 
-export default function createApp(app: Hono) {
+export default function createApp(app: Hono<any, any, any>) {
   const port = env.PORT;
 
   log.info(`Server: running on port ${port}!`);

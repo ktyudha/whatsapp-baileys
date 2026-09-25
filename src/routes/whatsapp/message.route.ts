@@ -1,10 +1,13 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as messageController from "@controllers/whatsapp/message.controller";
+import { MessageRoutes } from "./message.routes";
 
-export default function messageRoutes(app: Hono) {
-  app.post("/messages/text", messageController.sendText);
-  app.post("/messages/delete", messageController.remove);
-  app.post("/messages/edit", messageController.edit);
-  app.post("/messages/poll", messageController.sendPollMessage);
-}
+const routes = new MessageRoutes();
+
+const router = createRouter()
+  .openapi(routes.sendText, messageController.sendText)
+  .openapi(routes.delete, messageController.remove)
+  .openapi(routes.edit, messageController.edit)
+  .openapi(routes.sendPoll, messageController.sendPollMessage);
+
+export default router;

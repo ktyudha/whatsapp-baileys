@@ -1,11 +1,14 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as mediaController from "@controllers/whatsapp/media.controller";
+import { MediaRoutes } from "./media.routes";
 
-export default function mediaRoutes(app: Hono) {
-  app.post("/media/image", mediaController.sendImage);
-  app.post("/media/video", mediaController.sendVideo);
-  app.post("/media/audio", mediaController.sendAudio);
-  app.post("/media/document", mediaController.sendDocument);
-  app.post("/media/sticker", mediaController.sendSticker);
-}
+const routes = new MediaRoutes();
+
+const router = createRouter()
+  .openapi(routes.sendImage, mediaController.sendImage)
+  .openapi(routes.sendVideo, mediaController.sendVideo)
+  .openapi(routes.sendAudio, mediaController.sendAudio)
+  .openapi(routes.sendDocument, mediaController.sendDocument)
+  .openapi(routes.sendSticker, mediaController.sendSticker);
+
+export default router;

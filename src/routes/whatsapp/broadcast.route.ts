@@ -1,9 +1,12 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as broadcastController from "@controllers/whatsapp/broadcast.controller";
+import { BroadcastRoutes } from "./broadcast.routes";
 
-export default function broadcastRoutes(app: Hono) {
-  app.post("/broadcast/status", broadcastController.postStatus);
-  app.post("/broadcast/list/send", broadcastController.sendToList);
-  app.delete("/broadcast/list/:jid", broadcastController.deleteList);
-}
+const routes = new BroadcastRoutes();
+
+const router = createRouter()
+  .openapi(routes.postStatus, broadcastController.postStatus)
+  .openapi(routes.sendToList, broadcastController.sendToList)
+  .openapi(routes.deleteList, broadcastController.deleteList);
+
+export default router;

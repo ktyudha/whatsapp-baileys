@@ -1,23 +1,25 @@
-import { Hono } from "hono";
-
+import { createRouter } from "@core/app.core";
 import * as groupController from "@controllers/whatsapp/group.controller";
+import { GroupRoutes } from "./group.routes";
 
-export default function groupRoutes(app: Hono) {
-  app.post("/groups", groupController.create);
-  app.get("/groups", groupController.getAllGroups);
-  app.post("/groups/join", groupController.joinByCode);
-  app.get("/groups/invite-info/:code", groupController.inviteInfo);
+const routes = new GroupRoutes();
 
-  app.get("/groups/:jid", groupController.getMetadata);
-  app.post("/groups/:jid/participants", groupController.updateParticipants);
-  app.patch("/groups/:jid/subject", groupController.updateSubject);
-  app.patch("/groups/:jid/description", groupController.updateDescription);
-  app.patch("/groups/:jid/setting", groupController.updateSetting);
-  app.patch("/groups/:jid/member-add-mode", groupController.updateMemberAddMode);
-  app.patch("/groups/:jid/ephemeral", groupController.updateEphemeral);
-  app.post("/groups/:jid/leave", groupController.leave);
-  app.get("/groups/:jid/invite-link", groupController.getInviteLink);
-  app.post("/groups/:jid/invite-link/revoke", groupController.revokeInviteLink);
-  app.get("/groups/:jid/join-requests", groupController.listJoinRequests);
-  app.post("/groups/:jid/join-requests", groupController.updateJoinRequests);
-}
+const router = createRouter()
+  .openapi(routes.create, groupController.create)
+  .openapi(routes.getAllGroups, groupController.getAllGroups)
+  .openapi(routes.joinByCode, groupController.joinByCode)
+  .openapi(routes.inviteInfo, groupController.inviteInfo)
+  .openapi(routes.getMetadata, groupController.getMetadata)
+  .openapi(routes.updateParticipants, groupController.updateParticipants)
+  .openapi(routes.updateSubject, groupController.updateSubject)
+  .openapi(routes.updateDescription, groupController.updateDescription)
+  .openapi(routes.updateSetting, groupController.updateSetting)
+  .openapi(routes.updateMemberAddMode, groupController.updateMemberAddMode)
+  .openapi(routes.updateEphemeral, groupController.updateEphemeral)
+  .openapi(routes.leave, groupController.leave)
+  .openapi(routes.getInviteLink, groupController.getInviteLink)
+  .openapi(routes.revokeInviteLink, groupController.revokeInviteLink)
+  .openapi(routes.listJoinRequests, groupController.listJoinRequests)
+  .openapi(routes.updateJoinRequests, groupController.updateJoinRequests);
+
+export default router;
