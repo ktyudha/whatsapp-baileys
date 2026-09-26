@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as mediaController from "@controllers/whatsapp/media.controller";
+import * as mediaController from "@controllers/v1/media.controller";
 import { MediaRoutes } from "./media.routes";
 
 const routes = new MediaRoutes();

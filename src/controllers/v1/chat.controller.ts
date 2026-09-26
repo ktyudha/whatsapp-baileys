@@ -10,7 +10,7 @@ import type {
   PinChatRoute,
   SendPresenceRoute,
   SubscribePresenceRoute,
-} from "@routes/whatsapp/chat.routes";
+} from "@routes/v1/chat/chat.routes";
 import {
   archiveChat,
   deleteChat,

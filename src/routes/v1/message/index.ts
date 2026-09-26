@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as messageController from "@controllers/whatsapp/message.controller";
+import * as messageController from "@controllers/v1/message.controller";
 import { MessageRoutes } from "./message.routes";
 
 const routes = new MessageRoutes();

@@ -4,7 +4,7 @@ import type {
   EditMessageRoute,
   SendPollMessageRoute,
   SendTextMessageRoute,
-} from "@routes/whatsapp/message.routes";
+} from "@routes/v1/message/message.routes";
 import type { RouteHandler } from "@hono/zod-openapi";
 import {
   deleteMessage,

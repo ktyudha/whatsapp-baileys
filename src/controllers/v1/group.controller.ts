@@ -18,7 +18,7 @@ import type {
   UpdateParticipantsRoute,
   UpdateSettingRoute,
   UpdateSubjectRoute,
-} from "@routes/whatsapp/group.routes";
+} from "@routes/v1/group/group.routes";
 import {
   createGroup,
   getAllParticipatingGroups,

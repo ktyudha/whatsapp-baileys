@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as groupController from "@controllers/whatsapp/group.controller";
+import * as groupController from "@controllers/v1/group.controller";
 import { GroupRoutes } from "./group.routes";
 
 const routes = new GroupRoutes();

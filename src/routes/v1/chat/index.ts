@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as chatController from "@controllers/whatsapp/chat.controller";
+import * as chatController from "@controllers/v1/chat.controller";
 import { ChatRoutes } from "./chat.routes";
 
 const routes = new ChatRoutes();

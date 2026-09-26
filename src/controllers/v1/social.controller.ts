@@ -10,7 +10,7 @@ import type {
   SendLocationRoute,
   UnpinMessageRoute,
   UnreactRoute,
-} from "@routes/whatsapp/social.routes";
+} from "@routes/v1/social/social.routes";
 import {
   pinMessage,
   reactToMessage,

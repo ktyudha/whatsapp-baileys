@@ -15,7 +15,7 @@ import type {
   UpdateProfilePictureRoute,
   UpdateReadReceiptsRoute,
   UpdateStatusRoute,
-} from "@routes/whatsapp/privacy.routes";
+} from "@routes/v1/privacy/privacy.routes";
 import {
   blockContact,
   getBlockedContacts,

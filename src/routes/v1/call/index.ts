@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as callController from "@controllers/whatsapp/call.controller";
+import * as callController from "@controllers/v1/call.controller";
 import { CallRoutes } from "./call.routes";
 
 const routes = new CallRoutes();

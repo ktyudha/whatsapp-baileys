@@ -8,7 +8,7 @@ import type {
   SendImageRoute,
   SendStickerRoute,
   SendVideoRoute,
-} from "@routes/whatsapp/media.routes";
+} from "@routes/v1/media/media.routes";
 import {
   sendAudioMessage,
   sendDocumentMessage,

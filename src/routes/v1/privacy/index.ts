@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as privacyController from "@controllers/whatsapp/privacy.controller";
+import * as privacyController from "@controllers/v1/privacy.controller";
 import { PrivacyRoutes } from "./privacy.routes";
 
 const routes = new PrivacyRoutes();

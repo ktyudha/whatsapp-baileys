@@ -5,7 +5,7 @@ import type {
   DeleteListRoute,
   PostStatusRoute,
   SendToListRoute,
-} from "@routes/whatsapp/broadcast.routes";
+} from "@routes/v1/broadcast/broadcast.routes";
 import { deleteBroadcastList, sendToBroadcastList } from "@services/whatsapp/broadcast/broadcast-list.service";
 import { postTextStatus } from "@services/whatsapp/broadcast/status.service";
 

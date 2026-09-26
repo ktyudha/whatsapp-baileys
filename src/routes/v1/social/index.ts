@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as socialController from "@controllers/whatsapp/social.controller";
+import * as socialController from "@controllers/v1/social.controller";
 import { SocialRoutes } from "./social.routes";
 
 const routes = new SocialRoutes();

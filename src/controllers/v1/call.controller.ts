@@ -1,7 +1,7 @@
 import type { RouteHandler } from "@hono/zod-openapi";
 
 import { ok, withSocket } from "@core/helpers/index.helper";
-import type { RejectCallRoute } from "@routes/whatsapp/call.routes";
+import type { RejectCallRoute } from "@routes/v1/call/call.routes";
 import { rejectCall as rejectCallService } from "@services/whatsapp/call/call.service";
 
 export const reject: RouteHandler<RejectCallRoute> = withSocket(async (c, sock) => {

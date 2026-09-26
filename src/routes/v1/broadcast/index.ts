@@ -1,5 +1,5 @@
 import { createRouter } from "@core/app.core";
-import * as broadcastController from "@controllers/whatsapp/broadcast.controller";
+import * as broadcastController from "@controllers/v1/broadcast.controller";
 import { BroadcastRoutes } from "./broadcast.routes";
 
 const routes = new BroadcastRoutes();
