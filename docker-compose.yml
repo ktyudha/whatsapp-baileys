@@ -9,7 +9,7 @@ services:
     environment:
       - TZ=Asia/Jakarta
     ports:
-      - "127.0.0.1:${PORT:-2881}:${PORT:-2881}"
+      - "${PORT:-2881}:${PORT:-2881}"
     volumes:
       - ./auth_info_baileys:/app/auth_info_baileys
     healthcheck:
