@@ -1,4 +1,8 @@
-.PHONY: install dev start typecheck build up down restart logs sh clean
+.PHONY: help install dev start typecheck build up down restart logs sh clean
+.DEFAULT_GOAL := help
+
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
 install: ## Install dependencies
 	bun install
