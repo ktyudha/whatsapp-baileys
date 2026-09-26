@@ -9,7 +9,7 @@ const apiVersions = {
 };
 
 export default function coreRoutes(app: Hono<any, any, any>) {
-  app.get("/", (c) => c.text(`WHATSAPP BAILEYS - @ ${currentYear} Kurniawan Try Yudha`));
+  app.get("/", (c) => c.text(`WHATSAPP BAILEYS - @${currentYear} Kurniawan Try Yudha`));
   app.get("/status", (c) => c.json({ status: "ok" }));
 
   for (const [version, router] of Object.entries(apiVersions)) {
